@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { Container, CssBaseline } from '@mui/material';
+import Inicio from './components/Inicio';
+import Aulas from './components/Aulas';
+import Estudiantes from './components/Estudiantes';
+import Navbar from './components/Navbar';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <CssBaseline />
+      <Navbar />
+      <Container style={{ marginTop: '20px' }}>
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+          <Route path="/aulas" element={<Aulas />} />
+          <Route path="/estudiantes" element={<Estudiantes />} />
+          {/* Agregar más rutas para otros modelos */}
+        </Routes>
+      </Container>
     </div>
   );
-}
+};
 
 export default App;

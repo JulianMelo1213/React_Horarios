@@ -1,0 +1,19 @@
+/* src/components/Inicio.css */
+.logo-animado {
+    width: 200px;
+    animation: girar 5s linear infinite;
+  }
+  
+  @keyframes girar {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .grid-container {
+    margin-top: 20px;
+  }
+  
