@@ -75,6 +75,43 @@ const Navbar = () => {
                   </ListItemIcon>
                   <ListItemText primary="Profesores" />
                 </ListItem>
+                <ListItem button component={Link} to="/inscripciones" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItemIcon>
+                    <SchoolIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Inscripciones" />
+                </ListItem>
+                <ListItem button component={Link} to="/clases" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItemIcon>
+                    <SchoolIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Clases" />
+                </ListItem>
+                <ListItem button component={Link} to="/horarios" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItemIcon>
+                    <SchoolIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Horarios" />
+                </ListItem>
+                <ListItem button component={Link} to="/horarioDia" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItemIcon>
+                    <SchoolIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Horario-Dias" />
+                </ListItem>
+                <ListItem button component={Link} to="/horarioAsignatura" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItemIcon>
+                    <SchoolIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Horario-Asignatura" />
+                </ListItem>
+                <ListItem button component={Link} to="/dias" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItemIcon>
+                    <SchoolIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Dias" />
+                </ListItem>
+               
                 {/* Agregar más enlaces de controladores aquí */}
               </List>
             </Collapse>

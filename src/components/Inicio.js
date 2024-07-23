@@ -65,6 +65,24 @@ const Inicio = () => {
             <Button variant="contained" color="primary" component={Link} to="/profesores" style={{ marginBottom: '10px' }}>
               Gestionar Profesores
             </Button>
+            <Button variant="contained" color="primary" component={Link} to="/inscripciones" style={{ marginBottom: '10px' }}>
+              Gestionar Inscripciones
+            </Button>
+            <Button variant="contained" color="primary" component={Link} to="/clases" style={{ marginBottom: '10px' }}>
+              Gestionar Clases
+            </Button>
+            <Button variant="contained" color="primary" component={Link} to="/horarios" style={{ marginBottom: '10px' }}>
+              Gestionar Horarios
+            </Button>
+            <Button variant="contained" color="primary" component={Link} to="/horarioDia" style={{ marginBottom: '10px' }}>
+              Gestionar Horario-Dias
+            </Button>
+            <Button variant="contained" color="primary" component={Link} to="/horarioAsignatura" style={{ marginBottom: '10px' }}>
+              Gestionar Horario-Asignatura
+            </Button>
+            <Button variant="contained" color="primary" component={Link} to="/dias" style={{ marginBottom: '10px' }}>
+              Gestionar Dias
+            </Button>
           </Paper>
         </Grid>
       </Grid>

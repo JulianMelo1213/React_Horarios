@@ -21,6 +21,7 @@ const Estudiantes = () => {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [estudianteToDelete, setEstudianteToDelete] = useState(null);
   const [formError, setFormError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     obtenerEstudiantes();
@@ -118,17 +119,33 @@ const Estudiantes = () => {
     }
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredEstudiantes = estudiantes.filter((estudiante) =>
+    `${estudiante.nombre} ${estudiante.apellido}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Container>
       <Typography variant="h4" gutterBottom>Gestión de Estudiantes</Typography>
       {error && <Alert severity="error">{error}</Alert>}
-      <Button variant="contained" color="primary" onClick={() => handleOpen()}>
-        Agregar Estudiante
-      </Button>
+      <Box display="flex" justifyContent="space-between" mb={2}>
+        <Button variant="contained" color="primary" onClick={() => handleOpen()}>
+          Agregar Estudiante
+        </Button>
+        <TextField
+          label="Buscar Estudiante"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          variant="outlined"
+        />
+      </Box>
       <Box mt={3}>
         <Paper elevation={3}>
           <List>
-            {estudiantes.map((estudiante) => (
+            {filteredEstudiantes.map((estudiante) => (
               <ListItem key={estudiante.estudianteId} divider>
                 <ListItemText primary={`${estudiante.nombre} ${estudiante.apellido}`} secondary={`Email: ${estudiante.email}`} />
                 <ListItemSecondaryAction>

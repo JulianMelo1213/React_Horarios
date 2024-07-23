@@ -20,6 +20,7 @@ const Aulas = () => {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [aulaToDelete, setAulaToDelete] = useState(null);
   const [formError, setFormError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     obtenerAulas();
@@ -119,17 +120,33 @@ const Aulas = () => {
     }
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredAulas = aulas.filter((aula) =>
+    aula.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Container>
       <Typography variant="h4" gutterBottom>Gestión de Aulas</Typography>
       {error && <Alert severity="error">{error}</Alert>}
-      <Button variant="contained" color="primary" onClick={() => handleOpen()}>
-        Agregar Aula
-      </Button>
+      <Box display="flex" justifyContent="space-between" mb={2}>
+        <Button variant="contained" color="primary" onClick={() => handleOpen()}>
+          Agregar Aula
+        </Button>
+        <TextField
+          label="Buscar Aula"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          variant="outlined"
+        />
+      </Box>
       <Box mt={3}>
         <Paper elevation={3}>
           <List>
-            {aulas.map((aula) => (
+            {filteredAulas.map((aula) => (
               <ListItem key={aula.aulaId} divider>
                 <ListItemText primary={aula.nombre} secondary={`Capacidad: ${aula.capacidad}`} />
                 <ListItemSecondaryAction>
@@ -178,7 +195,7 @@ const Aulas = () => {
         <DialogTitle>Confirmar Eliminación</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            ¿Estás seguro de que deseas eliminar el "{aulaToDelete?.nombre}"?
+            ¿Estás seguro de que deseas eliminar el aula "{aulaToDelete?.nombre}" con capacidad de {aulaToDelete?.capacidad}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

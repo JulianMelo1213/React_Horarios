@@ -20,6 +20,7 @@ const Profesores = () => {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [profesorToDelete, setProfesorToDelete] = useState(null);
   const [formError, setFormError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     obtenerProfesores();
@@ -114,17 +115,33 @@ const Profesores = () => {
     }
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredProfesores = profesores.filter((profesor) =>
+    `${profesor.nombre} ${profesor.apellido}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Container>
       <Typography variant="h4" gutterBottom>Gestión de Profesores</Typography>
       {error && <Alert severity="error">{error}</Alert>}
-      <Button variant="contained" color="primary" onClick={() => handleOpen()}>
-        Agregar Profesor
-      </Button>
+      <Box display="flex" justifyContent="space-between" mb={2}>
+        <Button variant="contained" color="primary" onClick={() => handleOpen()}>
+          Agregar Profesor
+        </Button>
+        <TextField
+          label="Buscar Profesor"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          variant="outlined"
+        />
+      </Box>
       <Box mt={3}>
         <Paper elevation={3}>
           <List>
-            {profesores.map((profesor) => (
+            {filteredProfesores.map((profesor) => (
               <ListItem key={profesor.profesorId} divider>
                 <ListItemText primary={`${profesor.nombre} ${profesor.apellido}`} secondary={`Email: ${profesor.email}`} />
                 <ListItemSecondaryAction>
