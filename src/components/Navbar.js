@@ -69,6 +69,12 @@ const Navbar = () => {
                   </ListItemIcon>
                   <ListItemText primary="Estudiantes" />
                 </ListItem>
+                <ListItem button component={Link} to="/profesores" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItemIcon>
+                    <SchoolIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Profesores" />
+                </ListItem>
                 {/* Agregar más enlaces de controladores aquí */}
               </List>
             </Collapse>

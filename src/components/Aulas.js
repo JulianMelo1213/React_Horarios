@@ -4,7 +4,7 @@ import api from '../services/api';
 import {
   Container, TextField, Button, List, ListItem, ListItemText,
   ListItemSecondaryAction, IconButton, Typography, Alert, Dialog,
-  DialogTitle, DialogContent, DialogActions, DialogContentText
+  DialogTitle, DialogContent, DialogActions, DialogContentText, Paper, Box
 } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import { normalizeString } from '../utils/normalize';
@@ -126,21 +126,25 @@ const Aulas = () => {
       <Button variant="contained" color="primary" onClick={() => handleOpen()}>
         Agregar Aula
       </Button>
-      <List>
-        {aulas.map((aula) => (
-          <ListItem key={aula.aulaId}>
-            <ListItemText primary={aula.nombre} secondary={`Capacidad: ${aula.capacidad}`} />
-            <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="edit" onClick={() => handleOpen(aula)}>
-                <EditIcon />
-              </IconButton>
-              <IconButton edge="end" aria-label="delete" onClick={() => handleOpenConfirm(aula)}>
-                <DeleteIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List>
+      <Box mt={3}>
+        <Paper elevation={3}>
+          <List>
+            {aulas.map((aula) => (
+              <ListItem key={aula.aulaId} divider>
+                <ListItemText primary={aula.nombre} secondary={`Capacidad: ${aula.capacidad}`} />
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="edit" onClick={() => handleOpen(aula)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton edge="end" aria-label="delete" onClick={() => handleOpenConfirm(aula)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
+      </Box>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{editing ? 'Editar Aula' : 'Agregar Aula'}</DialogTitle>
         <DialogContent>
@@ -174,7 +178,7 @@ const Aulas = () => {
         <DialogTitle>Confirmar Eliminación</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            ¿Estás seguro de que deseas eliminar el aula "{aulaToDelete?.nombre}" con capacidad de {aulaToDelete?.capacidad}?
+            ¿Estás seguro de que deseas eliminar el "{aulaToDelete?.nombre}"?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

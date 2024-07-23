@@ -5,6 +5,7 @@ import { Container, CssBaseline } from '@mui/material';
 import Inicio from './components/Inicio';
 import Aulas from './components/Aulas';
 import Estudiantes from './components/Estudiantes';
+import Profesores from './components/Profesores';
 import Navbar from './components/Navbar';
 
 const App = () => {
@@ -17,7 +18,7 @@ const App = () => {
           <Route path="/" element={<Inicio />} />
           <Route path="/aulas" element={<Aulas />} />
           <Route path="/estudiantes" element={<Estudiantes />} />
-          {/* Agregar más rutas para otros modelos */}
+          <Route path="/profesores" element={<Profesores />} />
         </Routes>
       </Container>
     </div>

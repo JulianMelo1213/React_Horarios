@@ -62,6 +62,9 @@ const Inicio = () => {
             <Button variant="contained" color="primary" component={Link} to="/estudiantes" style={{ marginBottom: '10px' }}>
               Gestionar Estudiantes
             </Button>
+            <Button variant="contained" color="primary" component={Link} to="/profesores" style={{ marginBottom: '10px' }}>
+              Gestionar Profesores
+            </Button>
           </Paper>
         </Grid>
       </Grid>

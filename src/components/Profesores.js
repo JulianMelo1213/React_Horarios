@@ -1,4 +1,4 @@
-// src/components/Estudiantes.js
+// src/components/Profesores.js
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import {
@@ -8,48 +8,45 @@ import {
 } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 
-const Estudiantes = () => {
-  const [estudiantes, setEstudiantes] = useState([]);
+const Profesores = () => {
+  const [profesores, setProfesores] = useState([]);
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [currentEstudiante, setCurrentEstudiante] = useState(null);
+  const [currentProfesor, setCurrentProfesor] = useState(null);
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [estudianteToDelete, setEstudianteToDelete] = useState(null);
+  const [profesorToDelete, setProfesorToDelete] = useState(null);
   const [formError, setFormError] = useState('');
 
   useEffect(() => {
-    obtenerEstudiantes();
+    obtenerProfesores();
   }, []);
 
-  const obtenerEstudiantes = async () => {
+  const obtenerProfesores = async () => {
     try {
-      const response = await api.get('/estudiantes');
-      setEstudiantes(response.data);
+      const response = await api.get('/profesores');
+      setProfesores(response.data);
     } catch (error) {
-      setError('Error al obtener los estudiantes');
-      console.error('Error al obtener los estudiantes', error);
+      setError('Error al obtener los profesores');
+      console.error('Error al obtener los profesores', error);
     }
   };
 
-  const handleOpen = (estudiante = null) => {
-    if (estudiante) {
-      setNombre(estudiante.nombre);
-      setApellido(estudiante.apellido);
-      setEmail(estudiante.email);
-      setFechaNacimiento(estudiante.fechaNacimiento);
-      setCurrentEstudiante(estudiante);
+  const handleOpen = (profesor = null) => {
+    if (profesor) {
+      setNombre(profesor.nombre);
+      setApellido(profesor.apellido);
+      setEmail(profesor.email);
+      setCurrentProfesor(profesor);
       setEditing(true);
     } else {
       setNombre('');
       setApellido('');
       setEmail('');
-      setFechaNacimiento('');
-      setCurrentEstudiante(null);
+      setCurrentProfesor(null);
       setEditing(false);
     }
     setFormError('');
@@ -61,13 +58,12 @@ const Estudiantes = () => {
     setNombre('');
     setApellido('');
     setEmail('');
-    setFechaNacimiento('');
     setFormError('');
     setError('');
   };
 
   const handleSave = async () => {
-    if (!nombre || !apellido || !email || !fechaNacimiento) {
+    if (!nombre || !apellido || !email) {
       setFormError('Todos los campos son obligatorios.');
       return;
     }
@@ -78,64 +74,64 @@ const Estudiantes = () => {
     }
 
     try {
-      if (editing && currentEstudiante) {
-        const estudianteActualizado = { estudianteId: currentEstudiante.estudianteId, nombre, apellido, email, fechaNacimiento };
-        await api.put(`/estudiantes/${currentEstudiante.estudianteId}`, estudianteActualizado);
+      if (editing && currentProfesor) {
+        const profesorActualizado = { profesorId: currentProfesor.profesorId, nombre, apellido, email, fechaRegistro: new Date() };
+        await api.put(`/profesores/${currentProfesor.profesorId}`, profesorActualizado);
       } else {
-        const nuevoEstudiante = { nombre, apellido, email, fechaNacimiento };
-        await api.post('/estudiantes', nuevoEstudiante);
+        const nuevoProfesor = { nombre, apellido, email };
+        await api.post('/profesores', nuevoProfesor);
       }
       handleClose();
-      obtenerEstudiantes();
+      obtenerProfesores();
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data.includes('email')) {
-        setFormError('Ya existe un estudiante con ese email.');
+        setFormError('Ya existe un profesor con ese email.');
       } else {
-        setFormError(editing ? 'Error al actualizar estudiante' : 'Error al crear estudiante');
+        setFormError(editing ? 'Error al actualizar profesor' : 'Error al crear profesor');
       }
       console.error(error);
     }
   };
 
-  const handleOpenConfirm = (estudiante) => {
-    setEstudianteToDelete(estudiante);
+  const handleOpenConfirm = (profesor) => {
+    setProfesorToDelete(profesor);
     setOpenConfirm(true);
   };
 
   const handleCloseConfirm = () => {
     setOpenConfirm(false);
-    setEstudianteToDelete(null);
+    setProfesorToDelete(null);
   };
 
   const handleDelete = async () => {
     try {
-      await api.delete(`/estudiantes/${estudianteToDelete.estudianteId}`);
-      obtenerEstudiantes();
+      await api.delete(`/profesores/${profesorToDelete.profesorId}`);
+      obtenerProfesores();
       handleCloseConfirm();
     } catch (error) {
-      setError('Error al eliminar estudiante');
-      console.error('Error al eliminar estudiante', error);
+      setError('Error al eliminar profesor');
+      console.error('Error al eliminar profesor', error);
     }
   };
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>Gestión de Estudiantes</Typography>
+      <Typography variant="h4" gutterBottom>Gestión de Profesores</Typography>
       {error && <Alert severity="error">{error}</Alert>}
       <Button variant="contained" color="primary" onClick={() => handleOpen()}>
-        Agregar Estudiante
+        Agregar Profesor
       </Button>
       <Box mt={3}>
         <Paper elevation={3}>
           <List>
-            {estudiantes.map((estudiante) => (
-              <ListItem key={estudiante.estudianteId} divider>
-                <ListItemText primary={`${estudiante.nombre} ${estudiante.apellido}`} secondary={`Email: ${estudiante.email}`} />
+            {profesores.map((profesor) => (
+              <ListItem key={profesor.profesorId} divider>
+                <ListItemText primary={`${profesor.nombre} ${profesor.apellido}`} secondary={`Email: ${profesor.email}`} />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="edit" onClick={() => handleOpen(estudiante)}>
+                  <IconButton edge="end" aria-label="edit" onClick={() => handleOpen(profesor)}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton edge="end" aria-label="delete" onClick={() => handleOpenConfirm(estudiante)}>
+                  <IconButton edge="end" aria-label="delete" onClick={() => handleOpenConfirm(profesor)}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -145,7 +141,7 @@ const Estudiantes = () => {
         </Paper>
       </Box>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editing ? 'Editar Estudiante' : 'Agregar Estudiante'}</DialogTitle>
+        <DialogTitle>{editing ? 'Editar Profesor' : 'Agregar Profesor'}</DialogTitle>
         <DialogContent>
           {formError && <Alert severity="error">{formError}</Alert>}
           <TextField
@@ -169,17 +165,6 @@ const Estudiantes = () => {
             fullWidth
             margin="normal"
           />
-          <TextField
-            label="Fecha de Nacimiento"
-            type="date"
-            value={fechaNacimiento}
-            onChange={(e) => setFechaNacimiento(e.target.value)}
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
@@ -194,7 +179,7 @@ const Estudiantes = () => {
         <DialogTitle>Confirmar Eliminación</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            ¿Estás seguro de que deseas eliminar al estudiante "{estudianteToDelete?.nombre} {estudianteToDelete?.apellido}"?
+            ¿Estás seguro de que deseas eliminar al profesor "{profesorToDelete?.nombre} {profesorToDelete?.apellido}"?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -210,4 +195,4 @@ const Estudiantes = () => {
   );
 };
 
-export default Estudiantes;
+export default Profesores;
