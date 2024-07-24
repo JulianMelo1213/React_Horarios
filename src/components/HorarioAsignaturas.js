@@ -123,8 +123,12 @@ const HorarioAsignaturas = () => {
       handleClose();
       obtenerHorariosAsignaturas();
     } catch (error) {
-      if (error.response && error.response.status === 400 && error.response.data.includes('El profesor ya tiene una clase asignada en ese horario.')) {
-        setFormError('El profesor ya tiene una clase asignada en ese horario.');
+      if (error.response && error.response.status === 400) {
+        if (error.response.data.includes('El profesor ya tiene una clase asignada en ese horario.')) {
+          setFormError('El profesor ya tiene una clase asignada en ese horario.');
+        } else if (error.response.data.includes('Ya hay una clase asignada en el mismo aula, día y horario.')) {
+          setFormError('Ya hay una clase asignada en el mismo aula, día y horario.');
+        }
       } else {
         setFormError(editing ? 'Error al actualizar asignatura de horario' : 'Error al crear asignatura de horario');
       }
