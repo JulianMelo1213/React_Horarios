@@ -105,27 +105,29 @@ const HorarioAsignaturas = () => {
       return;
     }
 
+    const horarioAsignaturaDto = {
+      diaId: diaSeleccionado.diaId,
+      horarioId: horarioSeleccionado.horarioId,
+      profesorId: profesorSeleccionado.profesorId,
+      horaInicio: horarioSeleccionado.horaInicio,
+      horaFin: horarioSeleccionado.horaFin,
+    };
+
     try {
       if (editing && currentHorarioAsignatura) {
-        const horarioAsignaturaActualizado = {
-          horarioAsignaturaId: currentHorarioAsignatura.horarioAsignaturaId,
-          diaId: diaSeleccionado.diaId,
-          horarioId: horarioSeleccionado.horarioId,
-          profesorId: profesorSeleccionado.profesorId
-        };
-        await api.put(`/horarioAsignatura/${currentHorarioAsignatura.horarioAsignaturaId}`, horarioAsignaturaActualizado);
+        horarioAsignaturaDto.horarioAsignaturaId = currentHorarioAsignatura.horarioAsignaturaId;
+        await api.put(`/horarioAsignatura/${currentHorarioAsignatura.horarioAsignaturaId}`, horarioAsignaturaDto);
       } else {
-        const nuevaHorarioAsignatura = {
-          diaId: diaSeleccionado.diaId,
-          horarioId: horarioSeleccionado.horarioId,
-          profesorId: profesorSeleccionado.profesorId
-        };
-        await api.post('/horarioAsignatura', nuevaHorarioAsignatura);
+        await api.post('/horarioAsignatura', horarioAsignaturaDto);
       }
       handleClose();
       obtenerHorariosAsignaturas();
     } catch (error) {
-      setFormError(editing ? 'Error al actualizar asignatura de horario' : 'Error al crear asignatura de horario');
+      if (error.response && error.response.status === 400 && error.response.data.includes('El profesor ya tiene una clase asignada en ese horario.')) {
+        setFormError('El profesor ya tiene una clase asignada en ese horario.');
+      } else {
+        setFormError(editing ? 'Error al actualizar asignatura de horario' : 'Error al crear asignatura de horario');
+      }
       console.error(error);
     }
   };
@@ -178,7 +180,6 @@ const HorarioAsignaturas = () => {
         <Paper elevation={3}>
           <List>
             {filteredHorariosAsignaturas.map((horarioAsignatura) => {
-              const horario = horarios.find(h => h.horarioId === horarioAsignatura.horarioId);
               return (
                 <ListItem key={horarioAsignatura.horarioAsignaturaId} divider>
                   <ListItemText

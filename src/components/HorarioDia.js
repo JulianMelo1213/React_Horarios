@@ -1,4 +1,4 @@
-// src/components/HorariosDias.js
+// src/components/HorariosDia.js
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import {
@@ -85,8 +85,8 @@ const HorariosDias = () => {
 
   const handleOpen = (horarioDia = null) => {
     if (horarioDia) {
-      setDiaSeleccionado(dias.find(d => d.diaId === horarioDia.diaId));
-      setHorarioSeleccionado(horarios.find(h => h.horarioId === horarioDia.horarioId));
+      setDiaSeleccionado(dias.find(d => d.diaId === horarioDia.diaId) || null);
+      setHorarioSeleccionado(horarios.find(h => h.horarioId === horarioDia.horarioId) || null);
       setCurrentHorarioDia(horarioDia);
       setEditing(true);
     } else {
@@ -185,8 +185,9 @@ const HorariosDias = () => {
           <List>
             {filteredHorariosDias.map((horarioDia) => {
               const horario = horarios.find(h => h.horarioId === horarioDia.horarioId);
-              const clase = clases.find(c => c.claseId === horario.claseId);
-              const aula = aulas.find(a => a.aulaId === horario.aulaId);
+              if (!horario) return null;  // Agregar verificación para horario
+              const clase = clases.find(c => c.claseId === horario?.claseId);
+              const aula = aulas.find(a => a.aulaId === horario?.aulaId);
               return (
                 <ListItem key={horarioDia.horarioDiaId} divider>
                   <ListItemText

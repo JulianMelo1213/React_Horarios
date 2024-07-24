@@ -139,7 +139,7 @@ const Horarios = () => {
       obtenerHorarios();
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data.includes('Ya existe un horario')) {
-        setFormError('Ya existe un horario con la misma clase, aula, día y horas de inicio y fin.');
+        setFormError('Ya existe un horario en el mismo aula, día y hora.');
       } else {
         setFormError(editing ? 'Error al actualizar horario' : 'Error al crear horario');
       }
