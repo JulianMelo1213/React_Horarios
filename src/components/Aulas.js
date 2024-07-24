@@ -73,7 +73,7 @@ const Aulas = () => {
 
     const normalizedNombre = normalizeString(nombre);
 
-    const aulaExistente = aulas.find(aula => normalizeString(aula.nombre) === normalizedNombre);
+    const aulaExistente = aulas.find(aula => normalizeString(aula.nombre) === normalizedNombre && aula.aulaId !== currentAula?.aulaId);
     if (aulaExistente) {
       setFormError('Esta aula ya existe.');
       return;
