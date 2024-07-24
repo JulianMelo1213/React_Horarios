@@ -1,15 +1,16 @@
+// src/components/Navbar.js
 import React, { useState } from 'react';
 import {
   AppBar, Toolbar, Typography, IconButton, Drawer, List,
   ListItem, ListItemIcon, ListItemText, Collapse
 } from '@mui/material';
-import { Menu as MenuIcon, Home as HomeIcon, ExpandLess, ExpandMore, School as SchoolIcon, Build as BuildIcon, BarChart as BarChartIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, Home as HomeIcon, ExpandLess, ExpandMore, School as SchoolIcon, Build as BuildIcon, BarChart as BarChartIcon, CalendarToday as CalendarIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMaintenance, setOpenMaintenance] = useState(false);
-  const [openReports, setOpenReports] = useState(false);
+  const [openReports, setOpenReports] = useState(false); // Add state for reports
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -126,26 +127,32 @@ const Navbar = () => {
             </ListItem>
             <Collapse in={openReports} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem button component={Link} to="/reporte/utilizacion-aulas" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItem button component={Link} to="/reporteUtilizacionAulas" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <BarChartIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Utilización de aulas" />
+                  <ListItemText primary="Utilización de Aulas" />
                 </ListItem>
-                <ListItem button component={Link} to="/reporte/horarios-profesores" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItem button component={Link} to="/reporteHorariosProfesores" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <BarChartIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Horario de profesores" />
+                  <ListItemText primary="Horarios de Profesores" />
                 </ListItem>
-                <ListItem button component={Link} to="/reporte/horarios-estudiantes" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <ListItem button component={Link} to="/reporteHorariosEstudiantes" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <BarChartIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Horario de estudiantes" />
+                  <ListItemText primary="Horarios de Estudiantes" />
                 </ListItem>
               </List>
             </Collapse>
+            <ListItem button component={Link} to="/calendarioHorarios" onClick={toggleDrawer(false)}>
+              <ListItemIcon>
+                <CalendarIcon />
+              </ListItemIcon>
+              <ListItemText primary="Calendario de clases" />
+            </ListItem>
           </List>
         </div>
       </Drawer>

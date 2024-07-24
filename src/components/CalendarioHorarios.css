@@ -1,0 +1,12 @@
+/* src/components/CalendarioHorarios.css */
+.calendar-container {
+    height: 700px;
+  }
+  
+  .calendar-event {
+    background-color: #3f51b5;
+    color: white;
+    border-radius: 4px;
+    padding: 4px;
+  }
+  

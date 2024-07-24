@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Container, CssBaseline } from '@mui/material';
@@ -11,10 +12,11 @@ import Horarios from './components/Horarios';
 import Dias from './components/Dias';
 import HorarioDia from './components/HorarioDia';
 import HorarioAsignaturas from './components/HorarioAsignaturas';
-import Navbar from './components/Navbar';
 import ReporteUtilizacionAulas from './components/ReporteUtilizacionAulas';
 import ReporteHorariosProfesores from './components/ReporteHorariosProfesores';
 import ReporteHorariosEstudiantes from './components/ReporteHorariosEstudiantes';
+import CalendarioHorarios from './components/CalendarioHorarios';
+import Navbar from './components/Navbar';
 
 const App = () => {
   return (
@@ -33,9 +35,10 @@ const App = () => {
           <Route path="/dias" element={<Dias />} />
           <Route path="/horarioDia" element={<HorarioDia />} />
           <Route path="/horarioAsignatura" element={<HorarioAsignaturas />} />
-          <Route path="/reporte/utilizacion-aulas" element={<ReporteUtilizacionAulas />} />
-          <Route path="/reporte/horarios-profesores" element={<ReporteHorariosProfesores />} />
-          <Route path="/reporte/horarios-estudiantes" element={<ReporteHorariosEstudiantes />} />
+          <Route path="/reporteUtilizacionAulas" element={<ReporteUtilizacionAulas />} />
+          <Route path="/reporteHorariosProfesores" element={<ReporteHorariosProfesores />} />
+          <Route path="/reporteHorariosEstudiantes" element={<ReporteHorariosEstudiantes />} />
+          <Route path="/calendarioHorarios" element={<CalendarioHorarios />} />
         </Routes>
       </Container>
     </div>
