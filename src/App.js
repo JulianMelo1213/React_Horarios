@@ -17,6 +17,7 @@ import ReporteHorariosProfesores from './components/ReporteHorariosProfesores';
 import ReporteHorariosEstudiantes from './components/ReporteHorariosEstudiantes';
 import CalendarioHorarios from './components/CalendarioHorarios';
 import Navbar from './components/Navbar';
+import Login from './components/Login';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
       <Container style={{ marginTop: '20px' }}>
         <Routes>
           <Route path="/" element={<Inicio />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/aulas" element={<Aulas />} />
           <Route path="/estudiantes" element={<Estudiantes />} />
           <Route path="/profesores" element={<Profesores />} />
