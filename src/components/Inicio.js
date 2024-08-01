@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Box, Grid, Paper, Button, Card, CardContent } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import authService from "../services/authServices"; // Asegúrate de que esta ruta sea correcta
 import './Inicio.css'; // Importamos el archivo de estilos para la animación
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -13,6 +14,13 @@ const data = [
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
 const Inicio = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    authService.logout();
+    navigate('/login');
+  };
+
   return (
     <Box 
       display="flex"
@@ -27,6 +35,20 @@ const Inicio = () => {
       <Typography variant="h4" gutterBottom>
         ¡Bienvenido!
       </Typography>
+      <Button 
+        variant="outlined" 
+        style={{ 
+            position: 'absolute', 
+            top: '14px', 
+            right: '20px', 
+            backgroundColor: 'white', // Fondo blanco
+            color: 'black', // Texto blanco
+            borderColor: 'secondary.main' // Color del borde del botón
+            }} 
+            onClick={handleLogout}
+        >
+            Logout
+        </Button>
       <Grid container spacing={3} justifyContent="center" style={{ marginTop: '20px' }}>
         <Grid item xs={12} md={4}>
           <Paper elevation={3} style={{ padding: '20px' }}>
