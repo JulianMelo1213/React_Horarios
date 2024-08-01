@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5074/api/Usuario'; // Cambia la URL según tu configuración
+const API_URL = 'http://localhost:5074/api/Usuario';
 
 const login = async (loginDTO) => {
     try {
