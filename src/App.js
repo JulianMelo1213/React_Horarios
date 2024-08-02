@@ -19,31 +19,32 @@ import CalendarioHorarios from './components/CalendarioHorarios';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
+import authService from "./services/authServices";
 
 const App = () => {
-  const isAuthenticated = !!sessionStorage.getItem('user');
+  const isAuthenticated = authService.isAuthenticated();
 
   return (
     <div>
       <CssBaseline />
-      <Navbar />
+      {isAuthenticated && <Navbar />}
       <Container style={{ marginTop: '20px' }}>
         <Routes>
-          <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
-          <Route path="/" element={<PrivateRoute component={Inicio} />} />
-          <Route path="/aulas" element={<PrivateRoute component={Aulas} />} />
-          <Route path="/estudiantes" element={<PrivateRoute component={Estudiantes} />} />
-          <Route path="/profesores" element={<PrivateRoute component={Profesores} />} />
-          <Route path="/inscripciones" element={<PrivateRoute component={Inscripciones} />} />
-          <Route path="/clases" element={<PrivateRoute component={Clases} />} />
-          <Route path="/horarios" element={<PrivateRoute component={Horarios} />} />
-          <Route path="/dias" element={<PrivateRoute component={Dias} />} />
-          <Route path="/horarioDia" element={<PrivateRoute component={HorarioDia} />} />
-          <Route path="/horarioAsignatura" element={<PrivateRoute component={HorarioAsignaturas} />} />
-          <Route path="/reporteUtilizacionAulas" element={<PrivateRoute component={ReporteUtilizacionAulas} />} />
-          <Route path="/reporteHorariosProfesores" element={<PrivateRoute component={ReporteHorariosProfesores} />} />
-          <Route path="/reporteHorariosEstudiantes" element={<PrivateRoute component={ReporteHorariosEstudiantes} />} />
-          <Route path="/calendarioHorarios" element={<PrivateRoute component={CalendarioHorarios} />} />
+        <Route path="/login" element={<Login />} />
+          <Route path="/" element={isAuthenticated ? <Inicio /> : <Navigate to="/login" />} />
+          <Route path="/aulas" element={isAuthenticated ? <PrivateRoute element={Aulas} /> : <Navigate to="/login" />} />
+          <Route path="/estudiantes" element={isAuthenticated ? <PrivateRoute element={Estudiantes} /> : <Navigate to="/login" />} />
+          <Route path="/profesores" element={isAuthenticated ? <PrivateRoute element={Profesores} /> : <Navigate to="/login" />} />
+          <Route path="/inscripciones" element={isAuthenticated ? <PrivateRoute element={Inscripciones} /> : <Navigate to="/login" />} />
+          <Route path="/clases" element={isAuthenticated ? <PrivateRoute element={Clases} /> : <Navigate to="/login" />} />
+          <Route path="/horarios" element={isAuthenticated ? <PrivateRoute element={Horarios} /> : <Navigate to="/login" />} />
+          <Route path="/dias" element={isAuthenticated ? <PrivateRoute element={Dias} /> : <Navigate to="/login" />} />
+          <Route path="/horarioDia" element={isAuthenticated ? <PrivateRoute element={HorarioDia} /> : <Navigate to="/login" />} />
+          <Route path="/horarioAsignatura" element={isAuthenticated ? <PrivateRoute element={HorarioAsignaturas} /> : <Navigate to="/login" />} />
+          <Route path="/reporteUtilizacionAulas" element={isAuthenticated ? <PrivateRoute element={ReporteUtilizacionAulas} /> : <Navigate to="/login" />} />
+          <Route path="/reporteHorariosProfesores" element={isAuthenticated ? <PrivateRoute element={ReporteHorariosProfesores} /> : <Navigate to="/login" />} />
+          <Route path="/reporteHorariosEstudiantes" element={isAuthenticated ? <PrivateRoute element={ReporteHorariosEstudiantes} /> : <Navigate to="/login" />} />
+          <Route path="/calendarioHorarios" element={isAuthenticated ? <PrivateRoute element={CalendarioHorarios} /> : <Navigate to="/login" />} />
         </Routes>
       </Container>
     </div>

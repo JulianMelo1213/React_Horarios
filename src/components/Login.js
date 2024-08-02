@@ -14,8 +14,33 @@ const Login = () => {
         try {
             const response = await authService.login({ nombreUsuario, password });
             console.log("Login exitoso:", response);
-            navigate ('/')
+
+            if (response.token && response.role) {
+                sessionStorage.setItem('token', response.token);
+                sessionStorage.setItem('role', response.role);
+
+                console.log(response.role)
+                // Redirigir al usuario según su rol
+                switch (response.role) {
+                    case 'Administrador':
+                        navigate('/');
+                        break;
+                    case 'Estudiante': console.log('hola')
+                        navigate('/');
+                        break;
+                    case 'Profesor':
+                        navigate('/');
+                        break;
+                    default:
+                        navigate('/login');
+                        break;
+                }
+                window.dispatchEvent(new Event('roleUpdated'))
+            } else {
+                setError("Error en la respuesta del servidor");
+            }
         } catch (error) {
+            console.error("Error durante el login:", error);
             setError("Usuario no encontrado y/o contraseña incorrecta");
         }
     };
