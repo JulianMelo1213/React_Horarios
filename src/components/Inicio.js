@@ -39,10 +39,10 @@ const Inicio = () => {
         variant="outlined" 
         style={{ 
             position: 'absolute', 
-            top: '14px', 
+            top: '80px', 
             right: '20px', 
-            backgroundColor: 'white', // Fondo blanco
-            color: 'black', // Texto blanco
+            backgroundColor: '#5E8CF4', // Fondo blanco
+            color: 'white', // Texto blanco
             borderColor: 'secondary.main' // Color del borde del botón
             }} 
             onClick={handleLogout}
