@@ -19,9 +19,14 @@ const logout = () => {
     sessionStorage.removeItem('user');
 };
 
+const isAuthenticated = () => {
+    return !!sessionStorage.getItem('user');
+}
+
 const authService = {
     login,
     logout,
+    isAuthenticated
 };
 
 export default authService;

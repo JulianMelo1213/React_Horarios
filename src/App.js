@@ -1,6 +1,6 @@
 // src/App.js
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { Container, CssBaseline } from '@mui/material';
 import Inicio from './components/Inicio';
 import Aulas from './components/Aulas';
@@ -18,29 +18,32 @@ import ReporteHorariosEstudiantes from './components/ReporteHorariosEstudiantes'
 import CalendarioHorarios from './components/CalendarioHorarios';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
+  const isAuthenticated = !!sessionStorage.getItem('user');
+
   return (
     <div>
       <CssBaseline />
       <Navbar />
       <Container style={{ marginTop: '20px' }}>
         <Routes>
-          <Route path="/" element={<Inicio />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/aulas" element={<Aulas />} />
-          <Route path="/estudiantes" element={<Estudiantes />} />
-          <Route path="/profesores" element={<Profesores />} />
-          <Route path="/inscripciones" element={<Inscripciones />} />
-          <Route path="/clases" element={<Clases />} />
-          <Route path="/horarios" element={<Horarios />} />
-          <Route path="/dias" element={<Dias />} />
-          <Route path="/horarioDia" element={<HorarioDia />} />
-          <Route path="/horarioAsignatura" element={<HorarioAsignaturas />} />
-          <Route path="/reporteUtilizacionAulas" element={<ReporteUtilizacionAulas />} />
-          <Route path="/reporteHorariosProfesores" element={<ReporteHorariosProfesores />} />
-          <Route path="/reporteHorariosEstudiantes" element={<ReporteHorariosEstudiantes />} />
-          <Route path="/calendarioHorarios" element={<CalendarioHorarios />} />
+          <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
+          <Route path="/" element={<PrivateRoute component={Inicio} />} />
+          <Route path="/aulas" element={<PrivateRoute component={Aulas} />} />
+          <Route path="/estudiantes" element={<PrivateRoute component={Estudiantes} />} />
+          <Route path="/profesores" element={<PrivateRoute component={Profesores} />} />
+          <Route path="/inscripciones" element={<PrivateRoute component={Inscripciones} />} />
+          <Route path="/clases" element={<PrivateRoute component={Clases} />} />
+          <Route path="/horarios" element={<PrivateRoute component={Horarios} />} />
+          <Route path="/dias" element={<PrivateRoute component={Dias} />} />
+          <Route path="/horarioDia" element={<PrivateRoute component={HorarioDia} />} />
+          <Route path="/horarioAsignatura" element={<PrivateRoute component={HorarioAsignaturas} />} />
+          <Route path="/reporteUtilizacionAulas" element={<PrivateRoute component={ReporteUtilizacionAulas} />} />
+          <Route path="/reporteHorariosProfesores" element={<PrivateRoute component={ReporteHorariosProfesores} />} />
+          <Route path="/reporteHorariosEstudiantes" element={<PrivateRoute component={ReporteHorariosEstudiantes} />} />
+          <Route path="/calendarioHorarios" element={<PrivateRoute component={CalendarioHorarios} />} />
         </Routes>
       </Container>
     </div>
@@ -48,3 +51,4 @@ const App = () => {
 };
 
 export default App;
+
