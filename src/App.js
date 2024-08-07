@@ -2,6 +2,7 @@
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { Container, CssBaseline } from '@mui/material';
+import Login from './components/Login';
 import Inicio from './components/Inicio';
 import Aulas from './components/Aulas';
 import Estudiantes from './components/Estudiantes';
@@ -17,7 +18,6 @@ import ReporteHorariosProfesores from './components/ReporteHorariosProfesores';
 import ReporteHorariosEstudiantes from './components/ReporteHorariosEstudiantes';
 import CalendarioHorarios from './components/CalendarioHorarios';
 import Navbar from './components/Navbar';
-import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import authService from "./services/authServices";
 
@@ -27,7 +27,7 @@ const App = () => {
   return (
     <div>
       <CssBaseline />
-      {isAuthenticated && <Navbar />}
+      <Navbar />
       <Container style={{ marginTop: '20px' }}>
         <Routes>
         <Route path="/login" element={<Login />} />

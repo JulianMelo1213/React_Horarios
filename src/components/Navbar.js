@@ -1,10 +1,13 @@
-// src/components/Navbar.js
 import React, { useState, useEffect } from 'react';
 import {
   AppBar, Toolbar, Typography, IconButton, Drawer, List,
   ListItem, ListItemIcon, ListItemText, Collapse
 } from '@mui/material';
-import { Menu as MenuIcon, Home as HomeIcon, ExpandLess, ExpandMore, School as SchoolIcon, Build as BuildIcon, BarChart as BarChartIcon, CalendarToday as CalendarIcon } from '@mui/icons-material';
+import {
+  Menu as MenuIcon, Home as HomeIcon, ExpandLess, ExpandMore, 
+  School as SchoolIcon, Build as BuildIcon, BarChart as BarChartIcon, 
+  CalendarToday as CalendarIcon
+} from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import authService from "../services/authServices";
 
@@ -13,7 +16,6 @@ const Navbar = () => {
   const [openMaintenance, setOpenMaintenance] = useState(false);
   const [openReports, setOpenReports] = useState(false);
   const [role, setRole] = useState(null);
-
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -34,19 +36,16 @@ const Navbar = () => {
     const handleRoleUpdate = () => {
       const userRole = authService.getRole();
       setRole(userRole);
-    };  console.log(authService.getRole())
+    };
 
-    // Set the role when the component mounts
     handleRoleUpdate();
 
-    // Add event listener for role updates
     window.addEventListener('roleUpdated', handleRoleUpdate);
 
-    // Clean up the event listener
     return () => {
       window.removeEventListener('roleUpdated', handleRoleUpdate);
     };
-    
+
   }, []);
 
   return (
@@ -64,8 +63,6 @@ const Navbar = () => {
       <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer(false)}>
         <div
           role="presentation"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
           style={{ width: 250 }}
         >
           <List>
@@ -86,44 +83,58 @@ const Navbar = () => {
                 </ListItem>
                 <Collapse in={openMaintenance} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    <ListItem button component={Link} to="/aulas" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/aulas" sx={{ pl: 4 }}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Aulas" />
                     </ListItem>
-                    <ListItem button component={Link} to="/estudiantes" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/estudiantes" sx={{ pl: 4 }}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Estudiantes" />
                     </ListItem>
-                    <ListItem button component={Link} to="/profesores" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <SchoolIcon />
+                    <ListItem button component={Link} to="/profesores" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Profesores" />
                     </ListItem>
-                    <ListItem button component={Link} to="/inscripciones" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <SchoolIcon />
+                    <ListItem button component={Link} to="/inscripciones" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Inscripciones" />
                     </ListItem>
-                    <ListItem button component={Link} to="/clases" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <SchoolIcon />
+                    <ListItem button component={Link} to="/clases" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Clases" />
                     </ListItem>
-                    <ListItem button component={Link} to="/horarios" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <SchoolIcon />
+                    <ListItem button component={Link} to="/horarios" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Horarios" />
                     </ListItem>
-                    <ListItem button component={Link} to="/horarioDia" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <SchoolIcon />
+                    <ListItem button component={Link} to="/horarioDia" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Horario-Dias" />
                     </ListItem>
-                    <ListItem button component={Link} to="/horarioAsignatura" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <SchoolIcon />
+                    <ListItem button component={Link} to="/horarioAsignatura" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Horario-Asignatura" />
                     </ListItem>
-                    <ListItem button component={Link} to="/dias" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <SchoolIcon />
+                    <ListItem button component={Link} to="/dias" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Dias" />
                     </ListItem>
                   </List>
@@ -137,16 +148,22 @@ const Navbar = () => {
                 </ListItem>
                 <Collapse in={openReports} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    <ListItem button component={Link} to="/reporteUtilizacionAulas" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <BarChartIcon />
+                    <ListItem button component={Link} to="/reporteUtilizacionAulas" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <BarChartIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Utilización de Aulas" />
                     </ListItem>
-                    <ListItem button component={Link} to="/reporteHorariosProfesores" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <BarChartIcon />
+                    <ListItem button component={Link} to="/reporteHorariosProfesores" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <BarChartIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Horarios de Profesores" />
                     </ListItem>
-                    <ListItem button component={Link} to="/reporteHorariosEstudiantes" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                      <BarChartIcon />
+                    <ListItem button component={Link} to="/reporteHorariosEstudiantes" sx={{ pl: 4 }}>
+                      <ListItemIcon>
+                        <BarChartIcon />
+                      </ListItemIcon>
                       <ListItemText primary="Horarios de Estudiantes" />
                     </ListItem>
                   </List>
@@ -154,7 +171,7 @@ const Navbar = () => {
               </>
             )}
             {role === 'Estudiante' && (
-              <ListItem button component={Link} to="/calendarioHorarios" onClick={toggleDrawer(false)}>
+              <ListItem button component={Link} to="/calendarioHorarios">
                 <ListItemIcon>
                   <CalendarIcon />
                 </ListItemIcon>
@@ -162,7 +179,7 @@ const Navbar = () => {
               </ListItem>
             )}
             {role === 'Profesor' && (
-              <ListItem button component={Link} to="/calendarioHorarios" onClick={toggleDrawer(false)}>
+              <ListItem button component={Link} to="/calendarioHorarios">
                 <ListItemIcon>
                   <CalendarIcon />
                 </ListItemIcon>
@@ -173,9 +190,7 @@ const Navbar = () => {
         </div>
       </Drawer>
     </div>
-    
   );
 };
 
 export default Navbar;
-

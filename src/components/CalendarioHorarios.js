@@ -22,6 +22,7 @@ const CalendarioHorarios = () => {
 
   useEffect(() => {
     obtenerHorarios();
+    console.log(obtenerHorarios())
   }, []);
 
   const obtenerHorarios = async () => {

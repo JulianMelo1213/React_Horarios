@@ -26,7 +26,7 @@ const Login = () => {
                     case 'Administrador':
                         navigate('/');
                         break;
-                    case 'Estudiante': console.log('hola')
+                    case 'Estudiante':
                         navigate('/');
                         break;
                     case 'Profesor':
