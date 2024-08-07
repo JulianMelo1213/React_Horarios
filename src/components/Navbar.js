@@ -83,55 +83,55 @@ const Navbar = () => {
                 </ListItem>
                 <Collapse in={openMaintenance} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    <ListItem button component={Link} to="/aulas" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/aulas" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Aulas" />
                     </ListItem>
-                    <ListItem button component={Link} to="/estudiantes" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/estudiantes" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Estudiantes" />
                     </ListItem>
-                    <ListItem button component={Link} to="/profesores" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/profesores" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Profesores" />
                     </ListItem>
-                    <ListItem button component={Link} to="/inscripciones" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/inscripciones" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Inscripciones" />
                     </ListItem>
-                    <ListItem button component={Link} to="/clases" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/clases" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Clases" />
                     </ListItem>
-                    <ListItem button component={Link} to="/horarios" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/horarios" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Horarios" />
                     </ListItem>
-                    <ListItem button component={Link} to="/horarioDia" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/horarioDia" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Horario-Dias" />
                     </ListItem>
-                    <ListItem button component={Link} to="/horarioAsignatura" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/horarioAsignatura" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
                       <ListItemText primary="Horario-Asignatura" />
                     </ListItem>
-                    <ListItem button component={Link} to="/dias" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/dias" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <SchoolIcon />
                       </ListItemIcon>
@@ -148,19 +148,19 @@ const Navbar = () => {
                 </ListItem>
                 <Collapse in={openReports} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    <ListItem button component={Link} to="/reporteUtilizacionAulas" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/reporteUtilizacionAulas" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <BarChartIcon />
                       </ListItemIcon>
                       <ListItemText primary="Utilización de Aulas" />
                     </ListItem>
-                    <ListItem button component={Link} to="/reporteHorariosProfesores" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/reporteHorariosProfesores" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <BarChartIcon />
                       </ListItemIcon>
                       <ListItemText primary="Horarios de Profesores" />
                     </ListItem>
-                    <ListItem button component={Link} to="/reporteHorariosEstudiantes" sx={{ pl: 4 }}>
+                    <ListItem button component={Link} to="/reporteHorariosEstudiantes" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
                       <ListItemIcon>
                         <BarChartIcon />
                       </ListItemIcon>
@@ -168,22 +168,28 @@ const Navbar = () => {
                     </ListItem>
                   </List>
                 </Collapse>
+                <ListItem button component={Link} to="/calendarioHorarios" onClick={toggleDrawer(false)}>
+                  <ListItemIcon>
+                    <CalendarIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Calendario de clases" />
+                </ListItem>
               </>
             )}
             {role === 'Estudiante' && (
-              <ListItem button component={Link} to="/calendarioHorarios">
+              <ListItem button component={Link} to="/reporteHorariosEstudiantes" onClick={toggleDrawer(false)}>
                 <ListItemIcon>
                   <CalendarIcon />
                 </ListItemIcon>
-                <ListItemText primary="Calendario de clases" />
+                <ListItemText primary="Reporte de Horarios de Estudiantes" />
               </ListItem>
             )}
             {role === 'Profesor' && (
-              <ListItem button component={Link} to="/calendarioHorarios">
+              <ListItem button component={Link} to="/reporteHorariosProfesores" onClick={toggleDrawer(false)}>
                 <ListItemIcon>
                   <CalendarIcon />
                 </ListItemIcon>
-                <ListItemText primary="Calendario de clases" />
+                <ListItemText primary="Reporte de Horarios de Profesores" />
               </ListItem>
             )}
           </List>
@@ -194,3 +200,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
