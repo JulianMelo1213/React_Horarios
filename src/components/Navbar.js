@@ -1,14 +1,15 @@
+// src/components/Navbar.js
 import React, { useState, useEffect } from 'react';
 import {
   AppBar, Toolbar, Typography, IconButton, Drawer, List,
-  ListItem, ListItemIcon, ListItemText, Collapse
+  ListItem, ListItemIcon, ListItemText, Collapse, Button
 } from '@mui/material';
 import {
   Menu as MenuIcon, Home as HomeIcon, ExpandLess, ExpandMore, 
   School as SchoolIcon, Build as BuildIcon, BarChart as BarChartIcon, 
   CalendarToday as CalendarIcon
 } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import authService from "../services/authServices";
 
 const Navbar = () => {
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [openMaintenance, setOpenMaintenance] = useState(false);
   const [openReports, setOpenReports] = useState(false);
   const [role, setRole] = useState(null);
+  const navigate = useNavigate();
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -48,6 +50,11 @@ const Navbar = () => {
 
   }, []);
 
+  const handleLogout = () => {
+    authService.logout();
+    navigate('/login');
+  };
+
   return (
     <div>
       <AppBar position="fixed">
@@ -58,6 +65,9 @@ const Navbar = () => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Gestión de horarios
           </Typography>
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer(false)}>
@@ -200,5 +210,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-

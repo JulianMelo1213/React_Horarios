@@ -28,9 +28,9 @@ const App = () => {
     <div>
       <CssBaseline />
       <Navbar />
-      <Container style={{ marginTop: '20px' }}>
+      <Container style={{ marginTop: '80px' }}> {/* Ajusta el margen superior aquí */}
         <Routes>
-        <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={isAuthenticated ? <Inicio /> : <Navigate to="/login" />} />
           <Route path="/aulas" element={isAuthenticated ? <PrivateRoute element={Aulas} /> : <Navigate to="/login" />} />
           <Route path="/estudiantes" element={isAuthenticated ? <PrivateRoute element={Estudiantes} /> : <Navigate to="/login" />} />
@@ -52,4 +52,3 @@ const App = () => {
 };
 
 export default App;
-

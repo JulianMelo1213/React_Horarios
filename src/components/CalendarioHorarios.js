@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { Container, Select, MenuItem, FormControl, InputLabel, Grid } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './CalendarioHorarios.css';
+import 'moment/locale/es'; // Para el idioma español
 import api from '../services/api';
-import { Container, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-
-const localizer = momentLocalizer(moment);
-
-const classColors = {
-  Matemáticas: '#FF5733',
-  Historia: '#33FF57',
-  Biología: '#3357FF',
-  // Añadir más clases y colores aquí
-};
 
 const CalendarioHorarios = () => {
   const [eventsByAula, setEventsByAula] = useState({});
@@ -22,7 +12,6 @@ const CalendarioHorarios = () => {
 
   useEffect(() => {
     obtenerHorarios();
-    console.log(obtenerHorarios())
   }, []);
 
   const obtenerHorarios = async () => {
@@ -31,7 +20,7 @@ const CalendarioHorarios = () => {
       const responseAsignaturas = await api.get('/horarioAsignatura');
       
       const asignaturasMap = responseAsignaturas.data.reduce((acc, asignatura) => {
-        acc[asignatura.horarioId] = asignatura.nombreProfesor + " " + asignatura.apellidoProfesor;
+        acc[asignatura.horarioId] = `${asignatura.nombreProfesor} ${asignatura.apellidoProfesor}`;
         return acc;
       }, {});
 
@@ -62,15 +51,14 @@ const CalendarioHorarios = () => {
       const start = transformarFechaHora(targetDay, horario.horaInicio, i);
       const end = transformarFechaHora(targetDay, horario.horaFin, i);
       eventos.push({
+        id: `${horario.horarioId}-${i}`,
         title: `Clase: ${horario.nombreClase} - Profesor: ${profesor}`,
         start,
         end,
         allDay: false,
-        resource: {
-          clase: horario.nombreClase,
-          profesor,
-          aula: horario.nombreAula,
-        }
+        date: moment(start).format('YYYY-MM-DD'),
+        time: `${moment(start).format('HH:mm')} - ${moment(end).format('HH:mm')}`,
+        event: `Clase: ${horario.nombreClase} - Profesor: ${profesor}`,
       });
     }
 
@@ -86,31 +74,21 @@ const CalendarioHorarios = () => {
     return fechaHora.toDate();
   };
 
-  const eventStyleGetter = (event) => {
-    const backgroundColor = classColors[event.resource?.clase] || '#3174ad';
-    const style = {
-      backgroundColor,
-      borderRadius: '0px',
-      opacity: 0.8,
-      color: 'white',
-      border: '0px',
-      display: 'block',
-    };
-    return {
-      style,
-    };
-  };
-
   const handleAulaChange = (event) => {
     setSelectedAula(event.target.value);
   };
+
+  const columns = [
+    { field: 'date', headerName: 'Date', width: 150 },
+    { field: 'time', headerName: 'Time', width: 150 },
+    { field: 'event', headerName: 'Event', width: 400 },
+  ];
 
   return (
     <Container>
       <h2>Calendario de Horarios por Aula</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <FormControl fullWidth margin="normal">
-        <InputLabel>Aula</InputLabel>
         <Select value={selectedAula} onChange={handleAulaChange}>
           {Object.keys(eventsByAula).map(aula => (
             <MenuItem key={aula} value={aula}>{aula}</MenuItem>
@@ -118,20 +96,13 @@ const CalendarioHorarios = () => {
         </Select>
       </FormControl>
       {selectedAula && (
-        <div className="calendar-container">
-          <Calendar
-            localizer={localizer}
-            events={eventsByAula[selectedAula] || []}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: '100%' }}
-            eventPropGetter={eventStyleGetter}
-            views={['agenda']}
-            defaultView="agenda"
-            messages={{
-              agenda: 'Agenda',
-              noEventsInRange: 'No hay eventos en este rango'
-            }}
+        <div style={{ height: 600, width: '100%' }}>
+          <DataGrid
+            rows={eventsByAula[selectedAula] || []}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            disableSelectionOnClick
           />
         </div>
       )}

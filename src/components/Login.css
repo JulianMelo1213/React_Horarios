@@ -1,5 +1,7 @@
 /* Login.css */
-body {
+
+/* Encapsular los estilos dentro de una clase .login-page */
+body.login-page {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -9,6 +11,7 @@ body {
     height: 100vh;
 }
 
+/* Estilos específicos para el contenedor del login */
 .login-container {
     display: flex;
     justify-content: center;
@@ -19,6 +22,7 @@ body {
     box-sizing: border-box;
 }
 
+/* Estilos específicos para el formulario de login */
 .login-form {
     background-color: #fff;
     padding: 2rem;
@@ -53,7 +57,7 @@ body {
     box-sizing: border-box;
 }
 
-button {
+.login-form button {
     background-color: #007BFF;
     color: #fff;
     border: none;
@@ -64,7 +68,7 @@ button {
     margin-top: 1rem;
 }
 
-button:hover {
+.login-form button:hover {
     background-color: #0056b3;
 }
 

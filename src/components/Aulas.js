@@ -4,14 +4,14 @@ import api from '../services/api';
 import {
   Container, TextField, Button, List, ListItem, ListItemText,
   ListItemSecondaryAction, IconButton, Typography, Alert, Dialog,
-  DialogTitle, DialogContent, DialogActions, DialogContentText, Paper, Box
+  DialogTitle, DialogContent, DialogActions, DialogContentText, Paper, Box, InputAdornment
 } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import { normalizeString } from '../utils/normalize';
 
 const Aulas = () => {
   const [aulas, setAulas] = useState([]);
-  const [nombre, setNombre] = useState('Aula ');
+  const [numero, setNumero] = useState('');
   const [capacidad, setCapacidad] = useState('');
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
@@ -38,12 +38,12 @@ const Aulas = () => {
 
   const handleOpen = (aula = null) => {
     if (aula) {
-      setNombre(aula.nombre);
+      setNumero(aula.nombre.replace('Aula ', ''));
       setCapacidad(aula.capacidad);
       setCurrentAula(aula);
       setEditing(true);
     } else {
-      setNombre('Aula ');
+      setNumero('');
       setCapacidad('');
       setCurrentAula(null);
       setEditing(false);
@@ -54,15 +54,15 @@ const Aulas = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setNombre('Aula ');
+    setNumero('');
     setCapacidad('');
     setFormError('');
     setError('');
   };
 
   const handleSave = async () => {
-    if (!nombre || nombre.trim() === 'Aula') {
-      setFormError('El nombre es obligatorio.');
+    if (!numero) {
+      setFormError('El número del aula es obligatorio.');
       return;
     }
 
@@ -71,6 +71,7 @@ const Aulas = () => {
       return;
     }
 
+    const nombre = `Aula ${numero}`;
     const normalizedNombre = normalizeString(nombre);
 
     const aulaExistente = aulas.find(aula => normalizeString(aula.nombre) === normalizedNombre && aula.aulaId !== currentAula?.aulaId);
@@ -167,11 +168,15 @@ const Aulas = () => {
         <DialogContent>
           {formError && <Alert severity="error">{formError}</Alert>}
           <TextField
-            label="Nombre del aula"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            label="Aula"
+            value={numero}
+            onChange={(e) => setNumero(e.target.value)}
             fullWidth
             margin="normal"
+            InputProps={{
+              startAdornment: <InputAdornment position="start">Aula</InputAdornment>,
+              inputProps: { inputMode: 'numeric', pattern: '[0-9]*' }
+            }}
           />
           <TextField
             label="Capacidad"
