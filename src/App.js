@@ -1,7 +1,8 @@
 // src/App.js
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { Container, CssBaseline } from '@mui/material';
+import Login from './components/Login';
 import Inicio from './components/Inicio';
 import Aulas from './components/Aulas';
 import Estudiantes from './components/Estudiantes';
@@ -17,28 +18,33 @@ import ReporteHorariosProfesores from './components/ReporteHorariosProfesores';
 import ReporteHorariosEstudiantes from './components/ReporteHorariosEstudiantes';
 import CalendarioHorarios from './components/CalendarioHorarios';
 import Navbar from './components/Navbar';
+import PrivateRoute from './components/PrivateRoute';
+import authService from "./services/authServices";
 
 const App = () => {
+  const isAuthenticated = authService.isAuthenticated();
+
   return (
     <div>
       <CssBaseline />
       <Navbar />
-      <Container style={{ marginTop: '20px' }}>
+      <Container style={{ marginTop: '80px' }}> {/* Ajusta el margen superior aquí */}
         <Routes>
-          <Route path="/" element={<Inicio />} />
-          <Route path="/aulas" element={<Aulas />} />
-          <Route path="/estudiantes" element={<Estudiantes />} />
-          <Route path="/profesores" element={<Profesores />} />
-          <Route path="/inscripciones" element={<Inscripciones />} />
-          <Route path="/clases" element={<Clases />} />
-          <Route path="/horarios" element={<Horarios />} />
-          <Route path="/dias" element={<Dias />} />
-          <Route path="/horarioDia" element={<HorarioDia />} />
-          <Route path="/horarioAsignatura" element={<HorarioAsignaturas />} />
-          <Route path="/reporteUtilizacionAulas" element={<ReporteUtilizacionAulas />} />
-          <Route path="/reporteHorariosProfesores" element={<ReporteHorariosProfesores />} />
-          <Route path="/reporteHorariosEstudiantes" element={<ReporteHorariosEstudiantes />} />
-          <Route path="/calendarioHorarios" element={<CalendarioHorarios />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={isAuthenticated ? <Inicio /> : <Navigate to="/login" />} />
+          <Route path="/aulas" element={isAuthenticated ? <PrivateRoute element={Aulas} /> : <Navigate to="/login" />} />
+          <Route path="/estudiantes" element={isAuthenticated ? <PrivateRoute element={Estudiantes} /> : <Navigate to="/login" />} />
+          <Route path="/profesores" element={isAuthenticated ? <PrivateRoute element={Profesores} /> : <Navigate to="/login" />} />
+          <Route path="/inscripciones" element={isAuthenticated ? <PrivateRoute element={Inscripciones} /> : <Navigate to="/login" />} />
+          <Route path="/clases" element={isAuthenticated ? <PrivateRoute element={Clases} /> : <Navigate to="/login" />} />
+          <Route path="/horarios" element={isAuthenticated ? <PrivateRoute element={Horarios} /> : <Navigate to="/login" />} />
+          <Route path="/dias" element={isAuthenticated ? <PrivateRoute element={Dias} /> : <Navigate to="/login" />} />
+          <Route path="/horarioDia" element={isAuthenticated ? <PrivateRoute element={HorarioDia} /> : <Navigate to="/login" />} />
+          <Route path="/horarioAsignatura" element={isAuthenticated ? <PrivateRoute element={HorarioAsignaturas} /> : <Navigate to="/login" />} />
+          <Route path="/reporteUtilizacionAulas" element={isAuthenticated ? <PrivateRoute element={ReporteUtilizacionAulas} /> : <Navigate to="/login" />} />
+          <Route path="/reporteHorariosProfesores" element={isAuthenticated ? <PrivateRoute element={ReporteHorariosProfesores} /> : <Navigate to="/login" />} />
+          <Route path="/reporteHorariosEstudiantes" element={isAuthenticated ? <PrivateRoute element={ReporteHorariosEstudiantes} /> : <Navigate to="/login" />} />
+          <Route path="/calendarioHorarios" element={isAuthenticated ? <PrivateRoute element={CalendarioHorarios} /> : <Navigate to="/login" />} />
         </Routes>
       </Container>
     </div>

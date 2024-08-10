@@ -1,16 +1,23 @@
 // src/components/Navbar.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar, Toolbar, Typography, IconButton, Drawer, List,
-  ListItem, ListItemIcon, ListItemText, Collapse
+  ListItem, ListItemIcon, ListItemText, Collapse, Button
 } from '@mui/material';
-import { Menu as MenuIcon, Home as HomeIcon, ExpandLess, ExpandMore, School as SchoolIcon, Build as BuildIcon, BarChart as BarChartIcon, CalendarToday as CalendarIcon } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import {
+  Menu as MenuIcon, Home as HomeIcon, ExpandLess, ExpandMore, 
+  School as SchoolIcon, Build as BuildIcon, BarChart as BarChartIcon, 
+  CalendarToday as CalendarIcon
+} from '@mui/icons-material';
+import { Link, useNavigate } from 'react-router-dom';
+import authService from "../services/authServices";
 
 const Navbar = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMaintenance, setOpenMaintenance] = useState(false);
-  const [openReports, setOpenReports] = useState(false); // Add state for reports
+  const [openReports, setOpenReports] = useState(false);
+  const [role, setRole] = useState(null);
+  const navigate = useNavigate();
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -27,9 +34,30 @@ const Navbar = () => {
     setOpenReports(!openReports);
   };
 
+  useEffect(() => {
+    const handleRoleUpdate = () => {
+      const userRole = authService.getRole();
+      setRole(userRole);
+    };
+
+    handleRoleUpdate();
+
+    window.addEventListener('roleUpdated', handleRoleUpdate);
+
+    return () => {
+      window.removeEventListener('roleUpdated', handleRoleUpdate);
+    };
+
+  }, []);
+
+  const handleLogout = () => {
+    authService.logout();
+    navigate('/login');
+  };
+
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuIcon />
@@ -37,13 +65,14 @@ const Navbar = () => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Gestión de horarios
           </Typography>
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer(false)}>
         <div
           role="presentation"
-          onClick={(e) => e.stopPropagation()}
-          onKeyDown={toggleDrawer(false)}
           style={{ width: 250 }}
         >
           <List>
@@ -53,106 +82,126 @@ const Navbar = () => {
               </ListItemIcon>
               <ListItemText primary="Inicio" />
             </ListItem>
-            <ListItem button onClick={handleMaintenanceClick}>
-              <ListItemIcon>
-                <BuildIcon />
-              </ListItemIcon>
-              <ListItemText primary="Mantenimiento" />
-              {openMaintenance ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={openMaintenance} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem button component={Link} to="/aulas" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+            {role === 'Administrador' && (
+              <>
+                <ListItem button onClick={handleMaintenanceClick}>
                   <ListItemIcon>
-                    <SchoolIcon />
+                    <BuildIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Aulas" />
+                  <ListItemText primary="Mantenimiento" />
+                  {openMaintenance ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
-                <ListItem button component={Link} to="/estudiantes" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <SchoolIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Estudiantes" />
-                </ListItem>
-                <ListItem button component={Link} to="/profesores" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <SchoolIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Profesores" />
-                </ListItem>
-                <ListItem button component={Link} to="/inscripciones" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <SchoolIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Inscripciones" />
-                </ListItem>
-                <ListItem button component={Link} to="/clases" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <SchoolIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Clases" />
-                </ListItem>
-                <ListItem button component={Link} to="/horarios" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <SchoolIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Horarios" />
-                </ListItem>
-                <ListItem button component={Link} to="/horarioDia" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <SchoolIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Horario-Dias" />
-                </ListItem>
-                <ListItem button component={Link} to="/horarioAsignatura" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <SchoolIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Horario-Asignatura" />
-                </ListItem>
-                <ListItem button component={Link} to="/dias" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <SchoolIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Dias" />
-                </ListItem>
-              </List>
-            </Collapse>
-            <ListItem button onClick={handleReportsClick}>
-              <ListItemIcon>
-                <BarChartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Reportes" />
-              {openReports ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={openReports} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem button component={Link} to="/reporteUtilizacionAulas" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <Collapse in={openMaintenance} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <ListItem button component={Link} to="/aulas" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Aulas" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/estudiantes" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Estudiantes" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/profesores" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Profesores" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/inscripciones" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Inscripciones" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/clases" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Clases" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/horarios" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Horarios" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/horarioDia" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Horario-Dias" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/horarioAsignatura" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Horario-Asignatura" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/dias" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <SchoolIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Dias" />
+                    </ListItem>
+                  </List>
+                </Collapse>
+                <ListItem button onClick={handleReportsClick}>
                   <ListItemIcon>
                     <BarChartIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Utilización de Aulas" />
+                  <ListItemText primary="Reportes" />
+                  {openReports ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
-                <ListItem button component={Link} to="/reporteHorariosProfesores" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
+                <Collapse in={openReports} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <ListItem button component={Link} to="/reporteUtilizacionAulas" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <BarChartIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Utilización de Aulas" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/reporteHorariosProfesores" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <BarChartIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Horarios de Profesores" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/reporteHorariosEstudiantes" sx={{ pl: 4 }} onClick={toggleDrawer(false)}>
+                      <ListItemIcon>
+                        <BarChartIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Horarios de Estudiantes" />
+                    </ListItem>
+                  </List>
+                </Collapse>
+                <ListItem button component={Link} to="/calendarioHorarios" onClick={toggleDrawer(false)}>
                   <ListItemIcon>
-                    <BarChartIcon />
+                    <CalendarIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Horarios de Profesores" />
+                  <ListItemText primary="Calendario de clases" />
                 </ListItem>
-                <ListItem button component={Link} to="/reporteHorariosEstudiantes" onClick={toggleDrawer(false)} sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <BarChartIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Horarios de Estudiantes" />
-                </ListItem>
-              </List>
-            </Collapse>
-            <ListItem button component={Link} to="/calendarioHorarios" onClick={toggleDrawer(false)}>
-              <ListItemIcon>
-                <CalendarIcon />
-              </ListItemIcon>
-              <ListItemText primary="Calendario de clases" />
-            </ListItem>
+              </>
+            )}
+            {role === 'Estudiante' && (
+              <ListItem button component={Link} to="/reporteHorariosEstudiantes" onClick={toggleDrawer(false)}>
+                <ListItemIcon>
+                  <CalendarIcon />
+                </ListItemIcon>
+                <ListItemText primary="Reporte de Horarios de Estudiantes" />
+              </ListItem>
+            )}
+            {role === 'Profesor' && (
+              <ListItem button component={Link} to="/reporteHorariosProfesores" onClick={toggleDrawer(false)}>
+                <ListItemIcon>
+                  <CalendarIcon />
+                </ListItemIcon>
+                <ListItemText primary="Reporte de Horarios de Profesores" />
+              </ListItem>
+            )}
           </List>
         </div>
       </Drawer>

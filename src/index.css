@@ -11,3 +11,8 @@ body {
 .MuiDrawer-paper {
   width: 250px;
 }
+
+/* Estilo global para asegurar margen superior en todos los contenedores principales */
+.main-container {
+  margin-top: 80px; /* Ajusta esto según la altura de tu barra de navegación */
+}
