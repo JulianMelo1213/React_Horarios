@@ -4,16 +4,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import moment from 'moment';
 import 'moment/locale/es'; // Para el idioma español
 import api from '../services/api';
-import { Container, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-
-const localizer = momentLocalizer(moment);
-
-const classColors = {
-  Matemáticas: '#FF5733',
-  Historia: '#33FF57',
-  Biología: '#3357FF',
-  // Añadir más clases y colores aquí
-};
 
 const CalendarioHorarios = () => {
   const [eventsByAula, setEventsByAula] = useState({});
