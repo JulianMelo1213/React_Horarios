@@ -9,8 +9,8 @@ import { Container, Select, MenuItem, FormControl, InputLabel } from '@mui/mater
 const localizer = momentLocalizer(moment);
 
 const classColors = {
-  Matemáticas: '#FF5733',
-  Historia: '#33FF57',
+  Matemáticas: '#3357FF',
+  Historia: '#3357FF',
   Biología: '#3357FF',
   // Añadir más clases y colores aquí
 };
